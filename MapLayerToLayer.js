@@ -1,44 +1,46 @@
-//from
-//to
+// script.name=MapLayerToLayer - ctRy
+// script.description=Places the given layer on the same positions as another layer (with the same intensity).
+// script.param.from.type=string
+// script.param.from.description=Layer name of from
+// script.param.to.type=string
+// script.param.to.description=Layer name of to
+// script.hideCmdLineParams=true
 
 ///////////CODE/////////////
 
 print('Script by ctRy');
-
-if (arguments[0] == "" || arguments.length < 2 || arguments[1] == "")
-    throw "Argument 0 = layer name of from, Argument 1 = layer name of to\n";
 
 var fromLayer;
 var toLayer;
 
 try
 {
-	fromLayer = wp.getLayer().withName(arguments[0]).go();
+	fromLayer = wp.getLayer().withName(params['from']).go();
 }
 catch(err)
 {
-	fromLayer = wp.getLayer().fromWorld(world).withName(arguments[0]).go();
+	fromLayer = wp.getLayer().fromWorld(world).withName(params['from']).go();
 }
 
 try
 {
-	toLayer = wp.getLayer().withName(arguments[1]).go();
+	toLayer = wp.getLayer().withName(params['to']).go();
 }
 catch(err)
 {
 	try
 	{
-		toLayer = wp.getLayer().fromWorld(world).withName(arguments[1]).go();
+		toLayer = wp.getLayer().fromWorld(world).withName(params['to']).go();
 	}
 	catch(err)
 	{
-		throw "Worldpainter only recognizes layers that are painted in the world somewhere. Therefore, draw a random dot with " + arguments[1] + ".\n";
+		throw "Worldpainter only recognizes layers that are painted in the world somewhere. Therefore, draw a random dot with " + params['to'] + ".\n";
 	}
 	
 }
 
-print("Mapping " + arguments[1] + " to match values of " + arguments[0]);
-print(arguments[1] + " will be overwritten (you can undo after running the script).");
+print("Mapping " + params['to'] + " to match intensity of " + params['from']);
+print(params['to'] + " will be overwritten (you can undo after running the script).");
 
 var rect = dimension.getExtent();
 
